@@ -16,7 +16,9 @@
   "author": "shannonlal",
   "license": "ISC",
   "dependencies": {
-    "tail-stream": "^0.3.3"
+    "tail-stream": "^0.3.3",
+    "queue":"^4.4.1",
+    "winston":"^2.3.1"
   },
   "devDependencies": {
     "mocha":"^3.5.3",
