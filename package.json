@@ -1,0 +1,19 @@
+{
+  "name": "kinesis-filebeat",
+  "version": "1.0.0",
+  "description": "Kinesis Filebeat Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "Kinesis",
+    "Filebeat",
+    "Node"
+  ],
+  "author": "shannonlal",
+  "license": "ISC",
+  "dependencies": {
+    "tail-stream": "^0.3.3"
+  }
+}
