@@ -7,7 +7,6 @@
     "test": "mocha",
     "eslint": "./node_modules/.bin/eslint -c eslintrc.json ./**/*.js",
     "es-watch": "./node_modules/.bin/esw -w -c eslintrc.json ./**/*.js"
-
   },
   "keywords": [
     "Kinesis",
