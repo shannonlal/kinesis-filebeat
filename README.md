@@ -14,7 +14,7 @@ http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Firehose.html#putRecordBa
 
 
 Next steps
-1. Simple log service to send a message to firehose and see if lambda function is called.
+1. send-log-message needs to read messages from queue.  And test is to put messages onto log-queu on timer
 2. Expand this service to handle retry
 3. Test sending the log file to firehose
 4. Tail an actual log file and send to firehose
