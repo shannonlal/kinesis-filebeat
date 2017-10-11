@@ -5,6 +5,8 @@ and send all messages to Kinesis stream on a fixed interval
 
 ## TODO
 1. Integrate kinesis stream and start to test
+1b. Poll the Queue every 10 seconds and clear it off and dump to queue
+1c. Dump the error to DLQ log 
 2. Write your own process to send a log message to new Kinesis Firehose
 3. Should read logs from queue.  Should use putmessages
 4. Look at the following:  
