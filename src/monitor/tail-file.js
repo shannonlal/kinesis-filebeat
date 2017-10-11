@@ -19,7 +19,7 @@ module.exports = {
         var tstream = ts.createReadStream( fileName, options);
         
         tstream.on('data', function(logMsg) {
-            logQueue.push( logMsg).then( () => {} );
+            logQueue.push( logMsg );
         });
     }
 
