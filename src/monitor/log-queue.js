@@ -13,7 +13,7 @@ module.exports = class LogQueue {
 
         this.logQueue = new Queue();
 
-        console.log( 'logQueue', this.logQueue);
+        //console.log( 'logQueue', this.logQueue);
     }
 
     /**

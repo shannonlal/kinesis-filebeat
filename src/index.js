@@ -11,10 +11,13 @@ var options = {
     endOnError: false
 };
 
-tailFile.tailFile( './logs/test.log', logQueue, options);
+const LOG_FILE = process.env.LOG_FILE;
+
+console.log('Tailing the following file ->', LOG_FILE);
+tailFile.tailFile( LOG_FILE, logQueue, options);
 
 //TODO Test this tomorrow and integrate
-var processLogs = function(){
+var processLogs = function (){
     //TODO Replace this tomorrow
     var endTimer = Date.now() + 5000;
 
@@ -26,16 +29,10 @@ var processLogs = function(){
     }
 
     console.log('Completed Processing logs');
-}
+};
 
-/*var messageInterval = setInterval(function( ) {
-    let msg = 'Test Message ->'+ Date.now();
-    console.log('Putting message on queue');
-    logQueue.push( msg );
-  }, 1000);*/
-
-  var cleanInterval = setInterval(function( ) {
+var cleanInterval = setInterval( function ( ){
     processLogs();
-  }, 5000);
+}, 5000);
 
   
