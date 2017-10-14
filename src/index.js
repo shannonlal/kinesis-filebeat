@@ -16,14 +16,26 @@ tailFile.tailFile( './test.txt', logQueue, options);
 //TODO Test this tomorrow and integrate
 var processLogs = function(){
     //TODO Replace this tomorrow
-    var startTimer = new Date();
+    var endTimer = Date.now() + 5000;
 
-    while( starTime > 5000 && !logQueue.isEmpty()){
+    if( logQueue.isEmpty()){
+        console.log('Queue is empty');
+    }
+    while( Date.now() < endTimer && !logQueue.isEmpty()){
         console.log( 'Message', logQueue.pop());
     }
+
+    console.log('Completed Processing logs');
 }
 
-var interval = setInterval(function() {
-    console.log(str1 + " " + str2);
-  }, 10000, "Hello.", "How are you?");
+var messageInterval = setInterval(function( ) {
+    let msg = 'Test Message ->'+ Date.now();
+    console.log('Putting message on queue');
+    logQueue.push( msg );
+  }, 1000);
+
+  var cleanInterval = setInterval(function( ) {
+    processLogs();
+  }, 5000);
+
   
