@@ -10,10 +10,7 @@ module.exports = class LogQueue {
      * The following method will instantiate a log queue
      */
     constructor (){
-
         this.logQueue = new Queue();
-
-        //console.log( 'logQueue', this.logQueue);
     }
 
     /**
@@ -32,7 +29,6 @@ module.exports = class LogQueue {
     pop( ){
         let self = this;
         let rest = this.logQueue.dequeue();
-        console.log( 'pop', rest);
         return rest;
     }
 
@@ -51,5 +47,4 @@ module.exports = class LogQueue {
     size(){
         return this.logQueue.size();
     }
-
 };

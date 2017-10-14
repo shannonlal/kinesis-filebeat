@@ -32,6 +32,7 @@ NOTE Space before period
 http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Firehose.html#putRecordBatch-property
 5. Need to implement retry logic.  Need to handle partial messages being sent or failed
 6. Need to implement backoff logic for messages
+7. No file present.  Must Retry the logic again
 
 
 Next steps
