@@ -26,6 +26,11 @@ process.on('exit', exitHandler.bind(null,{cleanup:true}));
 process.on('SIGINT', exitHandler.bind(null, {exit:true}));
 
 interval = setInterval(function( ) {
-    let msg = 'Test Message ->'+ Date.now();
+    let msg = 'Test Message ->'
+
+    for( var i=0; i < 100; i++){
+        msg += ' -> Test Message with lots of data that keeps going and going '+i;
+    }
+    msg += Date.now();
     writeToFile( msg );
   }, 1000);

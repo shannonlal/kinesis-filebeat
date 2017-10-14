@@ -11,7 +11,7 @@ var options = {
     endOnError: false
 };
 
-tailFile.tailFile( './test.txt', logQueue, options);
+tailFile.tailFile( './logs/test.log', logQueue, options);
 
 //TODO Test this tomorrow and integrate
 var processLogs = function(){
@@ -28,11 +28,11 @@ var processLogs = function(){
     console.log('Completed Processing logs');
 }
 
-var messageInterval = setInterval(function( ) {
+/*var messageInterval = setInterval(function( ) {
     let msg = 'Test Message ->'+ Date.now();
     console.log('Putting message on queue');
     logQueue.push( msg );
-  }, 1000);
+  }, 1000);*/
 
   var cleanInterval = setInterval(function( ) {
     processLogs();

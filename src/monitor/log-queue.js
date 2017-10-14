@@ -36,8 +36,20 @@ module.exports = class LogQueue {
         return rest;
     }
 
+    /**
+     * The following method will return whether the queue is empty
+     * @return {boolean}
+     */
     isEmpty(){
         return this.logQueue.isEmpty();
+    }
+
+    /**
+     * The following method will return the size of the queue
+     * @return {int}
+     */
+    size(){
+        return this.logQueue.size();
     }
 
 };

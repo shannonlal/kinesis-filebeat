@@ -19,8 +19,11 @@ module.exports = {
         var tstream = ts.createReadStream( fileName, options);
         
         tstream.on('data', function(logMsg) {
-            logQueue.push( logMsg );
+            //console.log('Received Data', new Buffer(logMsg).toString());
+            logQueue.push( new Buffer(logMsg).toString() );
         });
+
+
     }
 
 };
