@@ -12,6 +12,12 @@ var options = {
 };
 
 const LOG_FILE = process.env.LOG_FILE;
+let pushInterval = process.env.PUSH_INTERVAL;
+
+if( typeof pushInterval === 'undefined'){
+    //Default to 30 seconds
+    pushInterval = 30000;
+}
 
 console.log('Tailing the following file ->', LOG_FILE);
 tailFile.tailFile( LOG_FILE, logQueue, options);
@@ -19,7 +25,8 @@ tailFile.tailFile( LOG_FILE, logQueue, options);
 //TODO Test this tomorrow and integrate
 var processLogs = function (){
     //TODO Replace this tomorrow
-    var endTimer = Date.now() + 5000;
+    //Set timer to only go 80% of the push interval
+    var endTimer = Date.now() + parseInt( pushInterval * 0.8);
 
     if( logQueue.isEmpty()){
         console.log('Queue is empty');
@@ -33,6 +40,6 @@ var processLogs = function (){
 
 var cleanInterval = setInterval( function ( ){
     processLogs();
-}, 5000);
+}, pushInterval);
 
   
