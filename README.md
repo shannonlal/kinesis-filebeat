@@ -3,6 +3,25 @@
 The following project is a simple docker container which will read a local log file
 and send all messages to Kinesis stream on a fixed interval
 
+
+# Docker Instruction
+To build the Docker Image you must have Docker installed on your machine.  To 
+build docker run the following command:
+
+## Build the Docker Image
+NOTE Space before period
+`docker build -t kinesis-filebeat .`
+
+## Verify that your Docker Image was built
+`docker images`
+
+## To Run the docker image
+`docker run -d -id -e "LOG_FILE=./logs/test.log" -e PUSH_INTERVAL=10000 shopscreen-search `
+
+## To view list of Docker Containers
+`docker ps`
+
+
 ## TODO
 1. Integrate kinesis stream and start to test
 1b. Poll the Queue every 10 seconds and clear it off and dump to queue
