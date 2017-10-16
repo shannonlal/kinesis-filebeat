@@ -17,7 +17,7 @@ NOTE Space before period
 `docker images`
 
 ## To Run the docker image
-`docker run -d -id -e "LOG_FILE=./logs/test.log" -e PUSH_INTERVAL=10000 shopscreen-search `
+`docker run -d -id -e "LOG_FILE=./logs/test.log" -e PUSH_INTERVAL=10000 kinesis-filebeat `
 
 ## To view list of Docker Containers
 `docker ps`
