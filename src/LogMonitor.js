@@ -29,12 +29,12 @@ module.exports = class LogMonitor{
      * The following method will tail a specific file
      * @param fileName - full path name to the file to tail
      */
-    tail( fileName ){
+    tail ( fileName ){
         let self = this;
         //TODO.  Put in logic to handle stream not there to retry after fixed interval
         var tstream = ts.createReadStream( fileName, self.options);
         
-        tstream.on('data', function(logMsg) {
+        tstream.on('data', function (logMsg) {
             self.logQueue.push( new Buffer(logMsg).toString() );
         });
     }
@@ -44,7 +44,7 @@ module.exports = class LogMonitor{
      * It will 
      * @param fileName - full path name to the file to tail
      */
-    processLogs( ){
+    processLogs (){
         let self = this;
         //Set timer to only go 80% of the push interval
         var endTimer = Date.now() + parseInt( self.pushInterval * 0.8);
@@ -55,8 +55,6 @@ module.exports = class LogMonitor{
         while( Date.now() < endTimer && !self.logQueue.isEmpty()){
             console.log( 'Message', self.logQueue.pop());
         }
-    
-        //console.log('Completed Processing logs');
     }
 };
 

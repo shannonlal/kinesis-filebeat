@@ -26,7 +26,7 @@ module.exports = class LogQueue {
      * The following method will return the message from the queue
      * @return message
      */
-    pop( ){
+    pop ( ){
         let self = this;
         let rest = this.logQueue.dequeue();
         return rest;
@@ -36,7 +36,7 @@ module.exports = class LogQueue {
      * The following method will return whether the queue is empty
      * @return {boolean}
      */
-    isEmpty(){
+    isEmpty (){
         return this.logQueue.isEmpty();
     }
 
@@ -44,7 +44,7 @@ module.exports = class LogQueue {
      * The following method will return the size of the queue
      * @return {int}
      */
-    size(){
+    size (){
         return this.logQueue.size();
     }
 };

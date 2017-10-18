@@ -28,8 +28,9 @@ module.exports = class KinesisStream{
          * The following message will send the logs to the kinesis stream
          * @param {*} messages
          */
-        sendLogsToStream( messages ){
+        sendLogsToStream ( messages ){
             let records = [];
+            let self = this;
 
             /**
              * The following function will properly format a record for 
@@ -37,23 +38,36 @@ module.exports = class KinesisStream{
              * @param {*} msg 
              * @param {*} partitionKey 
              */
-            function createKinesisRecord( msg, partitionKey ){
+            function createKinesisRecord ( msg, partitionKey ){
                 return {
                     Data: msg,
                     PartitionKey:partitionKey
-                }
+                };
+            };
 
-           }
+            function putLogsToKinesis ( params ){
+
+                return new Promise( (resolve, reject) =>{
+                    self.kinesis.putRecords( params, (error,data) =>{
+                        if( error ){
+                            reject( error );
+                        }else{
+                            resolve( data );
+                        }
+                    } );
+                });
+            }
 
            if( typeof messages !== 'undefined' && messages.length > 0 ){
+               let partitionKey = Math.random();
                 let records = messages.map( msg =>{
-                    return createKinesisRecord( msg );
-                } );
+                    return createKinesisRecord( msg, partitionKey );
+                });
 
                let kinesisParams = {
                     Data: records,
                     StreamName:DeliveryStreamName
-                }
+                };
             }
         }
     };
