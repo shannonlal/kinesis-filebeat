@@ -2,6 +2,7 @@
 
 var ts = require('tail-stream');
 const LogQueue = require( './LogQueue');
+const KinesisLogProcess= require( './KinesisLogProcess');
 
 module.exports = class LogMonitor{
 
@@ -12,7 +13,8 @@ module.exports = class LogMonitor{
      * @param monitorOptions.tailOptions - {optional} - 
      */
     constructor ( monitorOptions ){
-        this.logQueue = new LogQueue();;
+        this.logQueue = new LogQueue();
+        this.kinesisLog = new KinesisLogProcess();
         this.pushInterval = monitorOptions.pushInterval;
         if( typeof monitorOptions.tailOptions === 'undefined'){
             this.options =  {
@@ -45,16 +47,28 @@ module.exports = class LogMonitor{
      * @param fileName - full path name to the file to tail
      */
     processLogs (){
-        let self = this;
-        //Set timer to only go 80% of the push interval
-        var endTimer = Date.now() + parseInt( self.pushInterval * 0.8);
+
+        return new Promise ((resolve,reject)=>{
+            let self = this;
+            let messages = [];
+            //Set timer to only go 80% of the push interval
+            var endTimer = Date.now() + parseInt( self.pushInterval * 0.8);
+        
+           if( self.logQueue.isEmpty()){
+                console.log('Queue is empty');
+            }
+            while( Date.now() < endTimer && !self.logQueue.isEmpty()){
+                console.log( 'Message', self.logQueue.pop());
+                messages.push(  self.logQueue.pop() );
+            }
     
-        if( self.logQueue.isEmpty()){
-            console.log('Queue is empty');
-        }
-        while( Date.now() < endTimer && !self.logQueue.isEmpty()){
-            console.log( 'Message', self.logQueue.pop());
-        }
+           if( messages.length > 0){
+                return self.kinesisLog.sendLogsToStream( messages );
+            }else{
+                return Promise.resolve('No logs available');
+            }
+        });
+
     }
 };
 
