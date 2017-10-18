@@ -32,42 +32,55 @@ module.exports = class KinesisStream{
             let records = [];
             let self = this;
 
-            /**
-             * The following function will properly format a record for 
-             * kinesis stream
-             * @param {*} msg 
-             * @param {*} partitionKey 
-             */
-            function createKinesisRecord ( msg, partitionKey ){
-                return {
-                    Data: msg,
-                    PartitionKey:partitionKey
+            return new Promise( (resolve, reject)=>{
+                /**
+                 * The following function will properly format a record for 
+                 * kinesis stream
+                 * @param {*} msg 
+                 * @param {*} partitionKey 
+                 */
+                function createKinesisRecord ( msg, partitionKey ){
+                    return {
+                        Data: msg,
+                        PartitionKey:partitionKey
+                    };
                 };
-            };
 
-            function putLogsToKinesis ( params ){
+                /**
+                 * The following method will push the logs to kinesis
+                 * @param {*} params 
+                 */
+                function putLogsToKinesis ( params ){
 
-                return new Promise( (resolve, reject) =>{
-                    self.kinesis.putRecords( params, (error,data) =>{
-                        if( error ){
-                            reject( error );
-                        }else{
-                            resolve( data );
-                        }
-                    } );
-                });
-            }
+                    return new Promise( (resolve, reject) =>{
+                        self.kinesis.putRecords( params, (error,data) =>{
+                            if( error ){
+                                reject( error );
+                            }else{
+                                resolve( data );
+                            }
+                        } );
+                    });
+                }
 
-           if( typeof messages !== 'undefined' && messages.length > 0 ){
-               let partitionKey = Math.random();
-                let records = messages.map( msg =>{
-                    return createKinesisRecord( msg, partitionKey );
-                });
+                if( typeof messages !== 'undefined' && messages.length > 0 ){
+                    let partitionKey = Math.random();
+                    let records = messages.map( msg =>{
+                        return createKinesisRecord( msg, partitionKey );
+                    });
 
-               let kinesisParams = {
-                    Data: records,
-                    StreamName:DeliveryStreamName
-                };
-            }
+                    let kinesisParams = {
+                        Data: records,
+                        StreamName:DeliveryStreamName
+                    };
+
+                    return putLogsToKinesis( kinesisParams );
+                }else{
+                    return Promise.resolve( 'No logs to send');
+                }
+
+
+            });
+
         }
     };
