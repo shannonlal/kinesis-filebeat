@@ -58,14 +58,22 @@ module.exports = class LogMonitor{
                 console.log('Queue is empty');
             }
             while( Date.now() < endTimer && !self.logQueue.isEmpty()){
-                console.log( 'Message', self.logQueue.pop());
-                messages.push(  self.logQueue.pop() );
+                let msg = self.logQueue.pop();
+                console.log( 'Message',msg );
+                messages.push(  msg );
             }
     
            if( messages.length > 0){
-                return self.kinesisLog.sendLogsToStream( messages );
+               console.log( 'Sending messages ')
+                return self.kinesisLog.sendLogsToStream( messages ).then( rst =>{
+                    console.log( 'Sent logs to kinesis',rst);
+                    resolve( rst );
+                }).catch( err =>{
+                    console.log( 'Error sending logs ', err);
+                    reject( err );
+                });
             }else{
-                return Promise.resolve('No logs available');
+                resolve('No logs available');
             }
         });
 

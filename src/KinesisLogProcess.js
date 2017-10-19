@@ -5,7 +5,7 @@ var AWS = require('aws-sdk');
 var accessKey = process.env.AWS_ACCESS_KEY;
 var secretKey = process.env.AWS_SECRET_KEY;
 var DeliveryStreamName = process.env.AWS_KINESIS_STREAM_NAME;
-var region = process.env.AWS_REGION;
+var region = process.env.REGION;
 
 module.exports = class KinesisLogProcess{
     
@@ -64,13 +64,14 @@ module.exports = class KinesisLogProcess{
             }
 
             if( typeof messages !== 'undefined' && messages.length > 0 ){
-                let partitionKey = Math.random();
+                let partitionKey = `PartitionKey->${parseInt(Math.random()*12)}`;
                 let records = messages.map( msg =>{
                     return createKinesisRecord( msg, partitionKey );
                 });
 
+                console.log( 'records', records);
                 let kinesisParams = {
-                    Data: records,
+                    Records: records,
                     StreamName:DeliveryStreamName
                 };
 
