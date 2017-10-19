@@ -38,8 +38,19 @@ module.exports = class LogMonitor{
         
         tstream.on('data', function (logMsg) {
             let msg = new Buffer(logMsg).toString();
-            //console.log( msg );
-            self.logQueue.push(  msg );
+            console.log( msg );
+
+            let listOfMessages = msg.split('\n');
+
+            listOfMessages.map( logEntry =>{
+
+                if( typeof logEntry !== 'undefined' && logEntry !== ''){
+                    self.logQueue.push(  msg );
+                    
+                    console.log('Adding to Queue', (self.logQueue.size()));
+                }
+            });
+
         });
     }
 
@@ -63,11 +74,15 @@ module.exports = class LogMonitor{
             while( Date.now() < endTimer && !self.logQueue.isEmpty()){
                 let msg = self.logQueue.pop();
 
-                msg = msg.substring( 0, msg.indexOf("\n"));
+                //msg = msg.substring( 0, msg.indexOf("\n"));
                 //console.log( 'Message',msg );
 
+                if( typeof msg !== 'undefined' && msg !== ''){
+                    messages.push(  msg );
+                }else{
+                    console.log('Empty String on queue');
+                }
 
-                messages.push(  msg );
             }
     
            if( messages.length > 0){
