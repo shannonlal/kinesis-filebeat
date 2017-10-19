@@ -37,15 +37,16 @@ module.exports = class LogMonitor{
         var tstream = ts.createReadStream( fileName, self.options);
         
         tstream.on('data', function (logMsg) {
-            let msg = new Buffer(logMsg).toString();
-            console.log( msg );
-
+            let msg = new Buffer(logMsg).toString();            
             let listOfMessages = msg.split('\n');
 
             listOfMessages.map( logEntry =>{
 
                 if( typeof logEntry !== 'undefined' && logEntry !== ''){
-                    self.logQueue.push(  msg );
+                    //logEntry = logEntry.substring( 0, logEntry.indexOf("\n"));
+
+                    console.log(`logEntry -> on queue ${logEntry}`);
+                    self.logQueue.push(  logEntry );
                     
                     console.log('Adding to Queue', (self.logQueue.size()));
                 }
@@ -75,7 +76,7 @@ module.exports = class LogMonitor{
                 let msg = self.logQueue.pop();
 
                 //msg = msg.substring( 0, msg.indexOf("\n"));
-                //console.log( 'Message',msg );
+               // console.log( 'Message',msg );
 
                 if( typeof msg !== 'undefined' && msg !== ''){
                     messages.push(  msg );

@@ -78,7 +78,9 @@ module.exports = class KinesisLogProcess{
                 let partitionKey = `PartitionKey->${parseInt(Math.random()*12)}`;
                 let records = messages.map( msg =>{
                     //console.log('Message from queue', msg);
-                    return createKinesisRecord( msg, partitionKey );
+                    let r = createKinesisRecord( msg, partitionKey );
+                    //console.log( 'msg',r);
+                    return r;
                 });
 
                 //console.log( 'records', records);

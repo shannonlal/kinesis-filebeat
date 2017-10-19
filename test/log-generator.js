@@ -35,7 +35,7 @@ interval = setInterval(function ( ) {
             EMAIL:"demo@microsigns.com",
             COMPANY:"MicroSigns-Shannon",
             PLATFORM:"Android",
-            TYPE:"APP_LOG",
+            TYPE:"CMS_LOG",
             SUB_TYPE:"INFO",
             TRIGGER:"USER_ACTION",
             LOG:{  
