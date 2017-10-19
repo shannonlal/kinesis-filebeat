@@ -1,0 +1,10 @@
+version: '2'
+services:
+    kinesis-filebeat:
+        image: kinesis-filebeat:1.0.0
+        env_file: .env
+        volumes: 
+            - /home/ubuntu/logs:/var/log
+    volumes:
+      filebeatdata:
+        driver: local
