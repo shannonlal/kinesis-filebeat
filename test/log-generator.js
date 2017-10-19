@@ -29,7 +29,7 @@ interval = setInterval(function ( ) {
     let msg = 'Test Message ->';
 
 
-    for( var i=0; i < 2; i++){
+    for( var i=0; i < 10; i++){
         let l = {  
             SERIAL:"123456",
             EMAIL:"demo@microsigns.com",

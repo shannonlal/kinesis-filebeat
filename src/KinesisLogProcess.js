@@ -53,10 +53,21 @@ module.exports = class KinesisLogProcess{
             function putLogsToKinesis ( params ){
 
                 return new Promise( (resolve, reject) =>{
+                    console.log( 'Sending in put logs to kinesis', params);
+                    //resolve( 'processed ');
                     self.kinesis.putRecords( params, (error,data) =>{
+                        console.log('put records');
                         if( error ){
+                            console.log('Error sending response');
                             reject( error );
                         }else{
+                            let result = {
+                                messagesSent: params.Records.length,
+                                messagesProcessed: data.Records.length,
+                                messagesErrored: data.FailedRecordCount,
+                                allRecordsProcessed: (params.Records.length = data.Records.length)
+                            }
+                            console.log( 'Data sent ', result);
                             resolve( data );
                         }
                     } );
@@ -66,10 +77,11 @@ module.exports = class KinesisLogProcess{
             if( typeof messages !== 'undefined' && messages.length > 0 ){
                 let partitionKey = `PartitionKey->${parseInt(Math.random()*12)}`;
                 let records = messages.map( msg =>{
+                    //console.log('Message from queue', msg);
                     return createKinesisRecord( msg, partitionKey );
                 });
 
-                console.log( 'records', records);
+                //console.log( 'records', records);
                 let kinesisParams = {
                     Records: records,
                     StreamName:DeliveryStreamName

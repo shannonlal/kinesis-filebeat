@@ -37,7 +37,9 @@ module.exports = class LogMonitor{
         var tstream = ts.createReadStream( fileName, self.options);
         
         tstream.on('data', function (logMsg) {
-            self.logQueue.push( new Buffer(logMsg).toString() );
+            let msg = new Buffer(logMsg).toString();
+            //console.log( msg );
+            self.logQueue.push(  msg );
         });
     }
 
@@ -57,14 +59,20 @@ module.exports = class LogMonitor{
            if( self.logQueue.isEmpty()){
                 console.log('Queue is empty');
             }
+            
             while( Date.now() < endTimer && !self.logQueue.isEmpty()){
                 let msg = self.logQueue.pop();
-                console.log( 'Message',msg );
+
+                msg = msg.substring( 0, msg.indexOf("\n"));
+                //console.log( 'Message',msg );
+
+
                 messages.push(  msg );
             }
     
            if( messages.length > 0){
-               console.log( 'Sending messages ')
+               console.log( 'Sending messages ->', messages.length );
+               console.log( 'Left on queue ->', self.logQueue.size() );
                 return self.kinesisLog.sendLogsToStream( messages ).then( rst =>{
                     console.log( 'Sent logs to kinesis',rst);
                     resolve( rst );
