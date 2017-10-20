@@ -1,7 +1,16 @@
 'use strict';
 
+var args = process.argv.slice(2);
+let logFile;
+if( typeof args !=='undefined' && args.length > 0){
+    logFile = args[0];
+}else{
+    logFile = process.env.LOG_FILE;
+}
+
+
 var fs = require('fs');
-var wstream = fs.createWriteStream('./logs/test.log');
+var wstream = fs.createWriteStream(logFile);
 var interval;
 
 function writeToFile ( msg ){

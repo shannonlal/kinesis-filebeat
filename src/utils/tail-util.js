@@ -1,8 +1,16 @@
 var ts = require('tail-stream');
 
-const LOG_FILE = process.env.LOG_FILE;
 
-var tstream = ts.createReadStream(LOG_FILE, {
+var args = process.argv.slice(2);
+let logFile;
+if( typeof args !=='undefined' && args.length > 0){
+    logFile = args[0];
+}else{
+    logFile = process.env.LOG_FILE;
+}
+
+console.log( 'Tailing file', logFile );
+var tstream = ts.createReadStream(logFile, {
     beginAt: 'end',
     onMove: 'follow',
     endOnError: false
