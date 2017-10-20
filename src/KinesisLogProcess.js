@@ -14,13 +14,17 @@ module.exports = class KinesisLogProcess{
      *
      */
     constructor ( ){    
+
+        let params = {
+            apiVersion: '2013-12-02',
+            accessKeyId:accessKey,
+            secretAccessKey:secretKey,
+            region:region
+        };
+
+        console.log('kinesis stream', params);
         this.kinesis = new AWS.Kinesis(
-            {
-                apiVersion: '2013-12-02',
-                accessKeyId:accessKey,
-                secretAccessKey:secretKey,
-                region:region
-            }
+            params
         );
     }
 

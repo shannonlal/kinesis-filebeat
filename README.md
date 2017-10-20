@@ -22,6 +22,9 @@ NOTE Space before period
 `docker ps`
 
 
+## To execute with node
+pm2 start src/index.js --no-daemon -x -- ${LOG_FILE} ${PUSH_INTERVAL} ${AWS_ACCESS_KEY} ${AWS_SECRET_KEY} ${AWS_KINESIS_STREAM_NAME}
+
 ## TODO
 1. Integrate kinesis stream and start to test
 1b. Poll the Queue every 10 seconds and clear it off and dump to queue
