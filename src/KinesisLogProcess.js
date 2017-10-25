@@ -42,6 +42,7 @@ module.exports = class KinesisLogProcess{
 
         return new Promise ((resolve, reject)=>{
 
+            console.log( 'Writing messages ');
             messages.map( msg =>{
                 self.wstream.write( msg );
             });

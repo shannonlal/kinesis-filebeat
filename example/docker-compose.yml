@@ -1,7 +1,7 @@
 version: '2'
 services:
     kinesis-filebeat:
-        image: kinesis-filebeat:0.0.5
+        image: kinesis-filebeat:1.0.1
         env_file: .env
         volumes: 
             - /Users/developer/Code/kinesis-filebeat/logs:/var/log
