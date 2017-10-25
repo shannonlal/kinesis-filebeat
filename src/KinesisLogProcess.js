@@ -1,11 +1,14 @@
 'use strict';
 
 var AWS = require('aws-sdk');
+const fs = require('fs');
 
-var accessKey = process.env.AWS_ACCESS_KEY;
-var secretKey = process.env.AWS_SECRET_KEY;
-var DeliveryStreamName = process.env.AWS_KINESIS_STREAM_NAME;
-var region = process.env.REGION;
+//var accessKey = process.env.AWS_ACCESS_KEY;
+//var secretKey = process.env.AWS_SECRET_KEY;
+//var DeliveryStreamName = process.env.AWS_KINESIS_STREAM_NAME;
+//var region = process.env.REGION;
+
+const OUTPUT_FILE = process.env.OUTPUT_FILE;
 
 module.exports = class KinesisLogProcess{
     
@@ -14,8 +17,9 @@ module.exports = class KinesisLogProcess{
      *
      */
     constructor ( ){    
+        this.wstream = fs.createWriteStream(OUTPUT_FILE);
 
-        let params = {
+        /*let params = {
             apiVersion: '2013-12-02',
             accessKeyId:accessKey,
             secretAccessKey:secretKey,
@@ -25,7 +29,7 @@ module.exports = class KinesisLogProcess{
         console.log('kinesis stream', params);
         this.kinesis = new AWS.Kinesis(
             params
-        );
+        );*/
     }
 
     /**
@@ -36,14 +40,22 @@ module.exports = class KinesisLogProcess{
         let records = [];
         let self = this;
 
-        return new Promise( (resolve, reject)=>{
+        return new Promise ((resolve, reject)=>{
+
+            messages.map( msg =>{
+                self.wstream.write( msg );
+            });
+            resolve('Wrote messages');
+        });
+
+        /*return new Promise( (resolve, reject)=>{
             /**
              * The following function will properly format a record for 
              * kinesis stream
              * @param {*} msg 
              * @param {*} partitionKey 
              */
-            function createKinesisRecord ( msg, partitionKey ){
+            /*function createKinesisRecord ( msg, partitionKey ){
                 return {
                     Data: msg,
                     PartitionKey:partitionKey
@@ -54,7 +66,7 @@ module.exports = class KinesisLogProcess{
              * The following method will push the logs to kinesis
              * @param {*} params 
              */
-            function putLogsToKinesis ( params ){
+            /*function putLogsToKinesis ( params ){
 
                 return new Promise( (resolve, reject) =>{
                     console.log( 'Sending in put logs to kinesis', params);
@@ -99,7 +111,7 @@ module.exports = class KinesisLogProcess{
             }
 
 
-        });
+        });*/
 
     }
 };

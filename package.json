@@ -8,7 +8,8 @@
     "eslint": "./node_modules/.bin/eslint -c eslintrc.json ./**/*.js",
     "es-watch": "./node_modules/.bin/esw -w -c eslintrc.json ./**/*.js",
     "start": "node -r dotenv/config src/index.js",
-    "debug-tail": "node -r dotenv/config src/utils/tail-util.js"
+    "debug-tail": "node -r dotenv/config src/utils/tail-util.js",
+    "debug-gen": "node -r dotenv/config src/utils/log-generator.js"
   },
   "keywords": [
     "Kinesis",
