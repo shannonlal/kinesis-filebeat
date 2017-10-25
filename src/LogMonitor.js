@@ -37,6 +37,7 @@ module.exports = class LogMonitor{
         var tstream = ts.createReadStream( fileName, self.options);
         
         tstream.on('data', function (logMsg) {
+            console.log( 'Reading data');
             let msg = new Buffer(logMsg).toString();            
             let listOfMessages = msg.split('\n');
 
@@ -63,6 +64,7 @@ module.exports = class LogMonitor{
     processLogs (){
 
         return new Promise ((resolve,reject)=>{
+            console.log( 'Processing the logs');
             let self = this;
             let messages = [];
             //Set timer to only go 80% of the push interval
