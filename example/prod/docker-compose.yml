@@ -4,7 +4,7 @@ services:
         image: shannonlal/kinesis-filebeat:1.0.4
         env_file: .env
         volumes: 
-            - /Users/developer/Code/kinesis-filebeat/logs:/var/log
+            - /home/ubuntu/kinesis-filebeat/logs:/var/log
 #volumes:
 #    data:
 #        driver: local
