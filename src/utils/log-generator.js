@@ -40,6 +40,7 @@ interval = setInterval(function ( ) {
 
     for( var i=0; i < 10; i++){
         let l = {  
+            TIMESTAMP: new Date().toISOString(),
             SERIAL:"123456",
             EMAIL:"demo@microsigns.com",
             COMPANY:"MicroSigns-Shannon",

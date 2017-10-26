@@ -19,6 +19,7 @@ module.exports = class LogQueue {
      * @param {*} message 
      */
     push ( message ){
+        console.log('Putting message on queue');
         this.logQueue.enqueue( message );
     }
 

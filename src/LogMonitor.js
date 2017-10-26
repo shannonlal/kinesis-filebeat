@@ -19,8 +19,10 @@ module.exports = class LogMonitor{
         if( typeof monitorOptions.tailOptions === 'undefined'){
             this.options =  {
                 beginAt: 'end',
-                onMove: 'follow',
-                endOnError: false
+                onMove: 'stay',
+                endOnError: false,
+                onTruncate:'reset',
+                waitForCreate: true
             };
         }else{
             this.options = tailOptions;
@@ -33,9 +35,12 @@ module.exports = class LogMonitor{
      */
     tail ( fileName ){
         let self = this;
-        //TODO.  Put in logic to handle stream not there to retry after fixed interval
-        var tstream = ts.createReadStream( fileName, self.options);
-        
+        let tstream;
+        try{
+            tstream = ts.createReadStream( fileName, self.options);
+        }catch( err){
+            console.log('Error openning file');
+        }
         tstream.on('data', function (logMsg) {
             console.log( 'Reading data');
             let msg = new Buffer(logMsg).toString();            
@@ -44,8 +49,6 @@ module.exports = class LogMonitor{
             listOfMessages.map( logEntry =>{
 
                 if( typeof logEntry !== 'undefined' && logEntry !== ''){
-                    //logEntry = logEntry.substring( 0, logEntry.indexOf("\n"));
-
                     console.log(`logEntry -> on queue ${logEntry}`);
                     self.logQueue.push(  logEntry );
                     
@@ -53,6 +56,26 @@ module.exports = class LogMonitor{
                 }
             });
 
+        });
+
+        tstream.on('eof', function() {
+            console.log("reached end of file");
+        });
+        
+        tstream.on('move', function(oldpath, newpath) {
+            console.log("file moved from: " + oldpath + " to " + newpath);
+        });
+        
+        tstream.on('truncate', function(newsize, oldsize) {
+            console.log("file truncated from: " + oldsize + " to " + newsize);
+        });
+        
+        tstream.on('end', function() {
+            console.log("ended");
+        });
+        
+        tstream.on('error', function(err) {
+            console.log("error: " + err); 
         });
     }
 
