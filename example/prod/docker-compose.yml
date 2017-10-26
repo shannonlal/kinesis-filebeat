@@ -5,8 +5,3 @@ services:
         env_file: .env
         volumes: 
             - /home/ubuntu/kinesis-filebeat/logs:/var/log
-#volumes:
-#    data:
-#        driver: local
-#        driver_opts:
-#            source: /Users/developer/Code/kinesis-filebeat/logs
