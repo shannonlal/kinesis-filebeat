@@ -40,23 +40,14 @@ module.exports = class KinesisLogProcess{
         let records = [];
         let self = this;
 
-        return new Promise ((resolve, reject)=>{
-
-            console.log( 'Writing messages ');
-            messages.map( msg =>{
-                self.wstream.write( msg );
-            });
-            resolve('Wrote messages');
-        });
-
-        /*return new Promise( (resolve, reject)=>{
+        return new Promise( (resolve, reject)=>{
             /**
              * The following function will properly format a record for 
              * kinesis stream
              * @param {*} msg 
              * @param {*} partitionKey 
              */
-            /*function createKinesisRecord ( msg, partitionKey ){
+            function createKinesisRecord ( msg, partitionKey ){
                 return {
                     Data: msg,
                     PartitionKey:partitionKey
@@ -67,7 +58,7 @@ module.exports = class KinesisLogProcess{
              * The following method will push the logs to kinesis
              * @param {*} params 
              */
-            /*function putLogsToKinesis ( params ){
+            function putLogsToKinesis ( params ){
 
                 return new Promise( (resolve, reject) =>{
                     console.log( 'Sending in put logs to kinesis', params);
@@ -110,9 +101,7 @@ module.exports = class KinesisLogProcess{
             }else{
                 return Promise.resolve( 'No logs to send');
             }
-
-
-        });*/
+        });
 
     }
 };
