@@ -4,6 +4,16 @@ The following project is a simple docker container which will read a local log f
 and send all messages to Kinesis stream on a fixed interval
 
 
+#Test run 
+
+1. `docker build -t kinesis-filebeat .`
+2. cd into kinesis-filebeat/examples
+2a. Update .env file in here for your environment
+3. docker-compose up -d
+4. from kinesis-filebeat 
+4a. Create .env file (look at .env-sample)
+4b npm run debug-gen
+
 # Docker Instruction
 To build the Docker Image you must have Docker installed on your machine.  To 
 build docker run the following command:
