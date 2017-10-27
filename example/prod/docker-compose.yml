@@ -1,7 +1,7 @@
 version: '2'
 services:
     kinesis-filebeat:
-        image: shannonlal/kinesis-filebeat:1.0.5
+        image: shannonlal/kinesis-filebeat:1.0.10
         env_file: .env
         volumes: 
             - /home/ubuntu/kinesis-filebeat/logs:/var/log
