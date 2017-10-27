@@ -38,30 +38,7 @@ module.exports = class LogMonitor{
 
         this.fileClosed = true;
     }
-
-    tailFile( fileName ){
-        let self = this;
-        let ft = require('file-tail').startTailing({
-        fd: fileName,           // Required 
-        ms: 200,     // Defaults to 100 (milliseconds) 
-        mode: 'line',                  // The other option is 'stream' 
-        encoding: 'utf8',               // see Node's fs.createReadStream 
-        onErr: function(error){
-            console.log('Error reading file', error);
-        }      // immediately listen for 'error' event 
-        });
-        
-       ft.on('line', function(line) {
-        self.logQueue.push(  logEntry );
-        
-        console.log('Adding to Queue', (self.logQueue.size()));
-       });
-
-       ft.on('end', function( ){
-           console.log('File ended');
-       });
-
-    }
+    
     /**
      * The following method will tail a specific file
      * @param fileName - full path name to the file to tail
