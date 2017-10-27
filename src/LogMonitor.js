@@ -1,6 +1,7 @@
 'use strict';
 
 var ts = require('tail-stream');
+var Tail = require( 'tail').Tail;
 const LogQueue = require( './LogQueue');
 const KinesisLogProcess= require( './KinesisLogProcess');
 
@@ -17,18 +18,50 @@ module.exports = class LogMonitor{
         this.kinesisLog = new KinesisLogProcess();
         this.pushInterval = monitorOptions.pushInterval;
         if( typeof monitorOptions.tailOptions === 'undefined'){
+            console.log( 'Overridding options');
             this.options =  {
                 beginAt: 'end',
                 onMove: 'stay',
                 endOnError: false,
+                detectTruncate: true,
                 onTruncate:'reset',
-                waitForCreate: true
+                waitForCreate: true,
+                useWatch:true
             };
         }else{
             this.options = tailOptions;
         }
+
+        this.sizeOfFile=  0;
+        this.linesCurrentlyRead = 0;
+        this.lineIndex = 0;
+
+        this.fileClosed = true;
     }
 
+    tailFile( fileName ){
+        let self = this;
+        let ft = require('file-tail').startTailing({
+        fd: fileName,           // Required 
+        ms: 200,     // Defaults to 100 (milliseconds) 
+        mode: 'line',                  // The other option is 'stream' 
+        encoding: 'utf8',               // see Node's fs.createReadStream 
+        onErr: function(error){
+            console.log('Error reading file', error);
+        }      // immediately listen for 'error' event 
+        });
+        
+       ft.on('line', function(line) {
+        self.logQueue.push(  logEntry );
+        
+        console.log('Adding to Queue', (self.logQueue.size()));
+       });
+
+       ft.on('end', function( ){
+           console.log('File ended');
+       });
+
+    }
     /**
      * The following method will tail a specific file
      * @param fileName - full path name to the file to tail
@@ -36,11 +69,11 @@ module.exports = class LogMonitor{
     tail ( fileName ){
         let self = this;
         let tstream;
-        try{
-            tstream = ts.createReadStream( fileName, self.options);
-        }catch( err){
-            console.log('Error openning file');
-        }
+        
+        tstream = ts.createReadStream( fileName, self.options);
+        
+        //console.log( 'Stream', tstream);
+        self.fileClosed = false;
         tstream.on('data', function (logMsg) {
             console.log( 'Reading data');
             let msg = new Buffer(logMsg).toString();            
@@ -60,6 +93,7 @@ module.exports = class LogMonitor{
 
         tstream.on('eof', function() {
             console.log("reached end of file");
+            self.fileClosed = true;
         });
         
         tstream.on('move', function(oldpath, newpath) {
@@ -72,10 +106,12 @@ module.exports = class LogMonitor{
         
         tstream.on('end', function() {
             console.log("ended");
+            self.fileClosed = true;
         });
         
         tstream.on('error', function(err) {
             console.log("error: " + err); 
+            self.fileClosed = true;
         });
     }
 

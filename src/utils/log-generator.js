@@ -10,6 +10,7 @@ if( typeof args !=='undefined' && args.length > 0){
 
 
 var fs = require('fs');
+console.log( 'Writing to the following', logFile);
 var wstream = fs.createWriteStream(logFile);
 var interval;
 

@@ -12,8 +12,10 @@ if( typeof args !=='undefined' && args.length > 0){
 console.log( 'Tailing file', logFile );
 var tstream = ts.createReadStream(logFile, {
     beginAt: 'end',
-    onMove: 'follow',
-    endOnError: false
+    onMove: 'stay',
+    endOnError: false,
+    onTruncate:'reset',
+    waitForCreate: true
 });
 
 tstream.on('data', function(data) {

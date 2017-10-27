@@ -1,7 +1,6 @@
 FROM node:7.4
 MAINTAINER shannonlal
 
-
 COPY . /kinesis-filebeat
 WORKDIR kinesis-filebeat
 
