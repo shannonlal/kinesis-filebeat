@@ -26,7 +26,8 @@
     "tail-stream": "^0.3.3",
     "winston": "^2.3.1",
     "winston-firehose": "^1.0.8",
-    "tail": "1.2.3"
+    "tail": "1.2.3",
+    "file-tail": "^0.3.0"
   },
   "devDependencies": {
     "assert": "^1.4.1",

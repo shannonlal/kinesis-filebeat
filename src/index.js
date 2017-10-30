@@ -30,7 +30,8 @@ const logMonitor = new LogMonitor( {pushInterval:pushInterval} );
 console.log('Tailing the following file ->', LOG_FILE);
 
 //logMonitor.tail( LOG_FILE );
-logMonitor.tail( LOG_FILE );
+//logMonitor.tail( LOG_FILE );
+logMonitor.tailFile( LOG_FILE );
 
 var cleanInterval = setInterval( function ( ){
 
