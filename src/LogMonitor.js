@@ -182,9 +182,11 @@ module.exports = class LogMonitor{
         
            if( self.logQueue.isEmpty()){
                 console.log('Queue is empty');
+                resolve('No logs available');
+                return;
             }
             
-            while( Date.now() < endTimer && !self.logQueue.isEmpty()){
+            while( (Date.now() < endTimer) && (!self.logQueue.isEmpty()){
                 let msg = self.logQueue.pop();
 
                 //msg = msg.substring( 0, msg.indexOf("\n"));
@@ -204,12 +206,14 @@ module.exports = class LogMonitor{
                 return self.kinesisLog.sendLogsToStream( messages ).then( rst =>{
                     console.log( 'Sent logs to kinesis');
                     resolve( rst );
+                    return;
                 }).catch( err =>{
                     console.log( 'Error sending logs ', err);
                     reject( err );
                 });
             }else{
                 resolve('No logs available');
+                return;
             }
         });
 
