@@ -26,7 +26,7 @@ module.exports = class LogMonitor{
                 detectTruncate: true,
                 onTruncate:'reset',
                 waitForCreate: true,
-                useWatch:true
+                useWatch: false
             };
         }else{
             this.options = tailOptions;
@@ -59,36 +59,36 @@ module.exports = class LogMonitor{
             listOfMessages.map( logEntry =>{
 
                 if( typeof logEntry !== 'undefined' && logEntry !== ''){
-                    console.log(`logEntry -> on queue ${logEntry}`);
+                    //console.log(`logEntry -> on queue ${logEntry}`);
                     self.logQueue.push(  logEntry );
                     
-                    console.log('Adding to Queue', (self.logQueue.size()));
+                    //console.log('Adding to Queue', (self.logQueue.size()));
                 }
             });
 
         });
 
         tstream.on('eof', function() {
-            console.log("reached end of file");
+            //console.log("reached end of file");
             self.fileClosed = true;
         });
         
         tstream.on('move', function(oldpath, newpath) {
-            console.log("file moved from: " + oldpath + " to " + newpath);
+            //console.log("file moved from: " + oldpath + " to " + newpath);
         });
         
         tstream.on('truncate', function(newsize, oldsize) {
-            console.log("file truncated from: " + oldsize + " to " + newsize);
+            //console.log("file truncated from: " + oldsize + " to " + newsize);
         });
         
         tstream.on('end', function() {
             console.log("ended");
-            self.fileClosed = true;
+            //self.fileClosed = true;
         });
         
         tstream.on('error', function(err) {
             console.log("error: " + err); 
-            self.fileClosed = true;
+            //self.fileClosed = true;
         });
     }
 
@@ -128,7 +128,7 @@ module.exports = class LogMonitor{
                console.log( 'Sending messages ->', messages.length );
                console.log( 'Left on queue ->', self.logQueue.size() );
                 return self.kinesisLog.sendLogsToStream( messages ).then( rst =>{
-                    console.log( 'Sent logs to kinesis',rst);
+                    console.log( 'Sent logs to kinesis');
                     resolve( rst );
                 }).catch( err =>{
                     console.log( 'Error sending logs ', err);

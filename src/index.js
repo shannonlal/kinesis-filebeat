@@ -34,10 +34,10 @@ logMonitor.tail( LOG_FILE );
 
 var cleanInterval = setInterval( function ( ){
 
-    if( logMonitor.fileClosed){
+    /*if( logMonitor.fileClosed){
         //Reopen file
         logMonitor.tail( LOG_FILE );
-    }
+    }*/
     logMonitor.processLogs().then( rst =>{
         console.log('Messages sent ')
     }).catch( err=>{    
