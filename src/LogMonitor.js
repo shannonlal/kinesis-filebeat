@@ -113,7 +113,7 @@ module.exports = class LogMonitor{
                 return;
             }
             
-            while( (Date.now() < endTimer) && (!self.logQueue.isEmpty()){
+            while( (Date.now() < endTimer) && (!self.logQueue.isEmpty())) {
                 let msg = self.logQueue.pop();
 
                 if( typeof msg !== 'undefined' && msg !== ''){
