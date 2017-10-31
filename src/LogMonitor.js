@@ -60,10 +60,8 @@ module.exports = class LogMonitor{
             listOfMessages.map( logEntry =>{
 
                 if( typeof logEntry !== 'undefined' && logEntry !== ''){
-                    //console.log(`logEntry -> on queue ${logEntry}`);
                     self.logQueue.push(  logEntry );
                     
-                    //console.log('Adding to Queue', (self.logQueue.size()));
                 }
             });
 
@@ -73,6 +71,8 @@ module.exports = class LogMonitor{
             //console.log("reached end of file");
             self.fileClosed = true;
         });
+        
+
         
         tstream.on('move', function(oldpath, newpath) {
             //console.log("file moved from: " + oldpath + " to " + newpath);
@@ -93,6 +93,52 @@ module.exports = class LogMonitor{
         });
     }
 
+    tailFile ( fileName ){
+        let self = this;
+        let tstream;
+
+        let options = {
+            fd: fileName,           // Required 
+            ms: 1000,     // Defaults to 100 (milliseconds) 
+            mode: 'stream',                  // The other option is 'stream' 
+            encoding: 'utf8',               // see Node's fs.createReadStream 
+            onErr: function(error){
+                console.log('Error', error)
+            }      // immediately listen for 'error' event 
+        }
+
+
+
+        let ft = fileTailer.startTailing(options);
+        ft.on('stream', function(stream){
+            let rst = '';
+            stream.on('data',(chunk)=>{
+                rst += chunk;
+            });
+
+            stream.on('end', ()=>{
+                console.log( 'Final ->', rst);
+
+                let lines = rst.split('\n');
+
+                console.log( 'Split lines into ->', lines);
+
+                if( ( typeof lines !== 'undefined') && (lines.length > 0) ){
+                    for( let i=0; i< lines.length; i++){
+                        if( ( typeof lines[i] !== 'undefined') && (lines[i] !== '') ){
+                            self.logQueue.push(  lines[i] );
+                        }
+                    }
+                }
+            });
+
+
+        });
+
+        
+    }
+
+
     /**
      * The following process the logs when ever the function is called
      * It will 
@@ -108,7 +154,7 @@ module.exports = class LogMonitor{
             var endTimer = Date.now() + parseInt( self.pushInterval * 0.8);
         
            if( self.logQueue.isEmpty()){
-                console.log('Queue is empty');
+                console.log('Queue is empty. Stopping till next interval');
                 resolve('No logs available');
                 return;
             }
@@ -128,7 +174,7 @@ module.exports = class LogMonitor{
                console.log( 'Sending messages ->', messages.length );
                console.log( 'Left on queue ->', self.logQueue.size() );
                 return self.kinesisLog.sendLogsToStream( messages ).then( rst =>{
-                    console.log( 'Sent logs to kinesis');
+                    console.log( 'Sent logs to kinesis. Stopping to next interval');
                     resolve( rst );
                     return;
                 }).catch( err =>{
@@ -136,6 +182,7 @@ module.exports = class LogMonitor{
                     reject( err );
                 });
             }else{
+                console.log('No logs to send.  Stopping till next interval');
                 resolve('No logs available');
                 return;
             }

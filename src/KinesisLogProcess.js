@@ -60,7 +60,7 @@ module.exports = class KinesisLogProcess{
             function putLogsToKinesis ( params ){
 
                 return new Promise( (resolve, reject) =>{
-                    //console.log( 'Sending in put logs to kinesis', params);
+                    console.log( 'Sending logs to kinesis');
                     //resolve( 'processed ');
                     self.kinesis.putRecords( params, (error,data) =>{
                         //console.log('put records');
@@ -74,7 +74,7 @@ module.exports = class KinesisLogProcess{
                                 messagesErrored: data.FailedRecordCount,
                                 allRecordsProcessed: (params.Records.length = data.Records.length)
                             }
-                            //console.log( 'Data sent ', result);
+                            console.log( 'Data sent to kinesis ');
                             resolve( data );
                         }
                     } );
