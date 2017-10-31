@@ -33,9 +33,11 @@ logMonitor.tailFile( LOG_FILE );
 var cleanInterval = setInterval( function ( ){
 
     logMonitor.processLogs().then( rst =>{
-        console.log('Messages sent ')
+        console.log('Completed Processing logs');
+        return;
     }).catch( err=>{    
         console.log('Error processing', err);
+        return;
     });
 }, pushInterval);
 
