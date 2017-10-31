@@ -39,79 +39,6 @@ module.exports = class LogMonitor{
 
         this.fileClosed = true;
     }
-
-    tailFile ( fileName ){
-        let self = this;
-        let tstream;
-
-        let options = {
-            fd: fileName,           // Required 
-            ms: 1000,     // Defaults to 100 (milliseconds) 
-            mode: 'line',                  // The other option is 'stream' 
-            encoding: 'utf8',               // see Node's fs.createReadStream 
-            onErr: function(error){
-                console.log('Error', error)
-            }      // immediately listen for 'error' event 
-        }
-
-
-
-        let ft = fileTailer.startTailing(options);
-        ft.on('stream', function(stream){
-            let rst = '';
-            stream.on('data',(chunk)=>{
-
-                //console.log('chunk', chunk);
-                rst += chunk;
-            });
-
-            stream.on('end', ()=>{
-                console.log( 'Final ->', rst);
-            });
-
-
-        });
-
-        /*tstream.on('data', function (logMsg) {
-            console.log( 'Reading data');
-            let msg = new Buffer(logMsg).toString();            
-            let listOfMessages = msg.split('\n');
-
-            listOfMessages.map( logEntry =>{
-
-                if( typeof logEntry !== 'undefined' && logEntry !== ''){
-                    //console.log(`logEntry -> on queue ${logEntry}`);
-                    self.logQueue.push(  logEntry );
-                    
-                    //console.log('Adding to Queue', (self.logQueue.size()));
-                }
-            });
-
-        });
-
-        tstream.on('eof', function() {
-            //console.log("reached end of file");
-            self.fileClosed = true;
-        });
-        
-        tstream.on('move', function(oldpath, newpath) {
-            //console.log("file moved from: " + oldpath + " to " + newpath);
-        });
-        
-        tstream.on('truncate', function(newsize, oldsize) {
-            //console.log("file truncated from: " + oldsize + " to " + newsize);
-        });
-        
-        tstream.on('end', function() {
-            console.log("ended");
-            //self.fileClosed = true;
-        });
-        
-        tstream.on('error', function(err) {
-            console.log("error: " + err); 
-            //self.fileClosed = true;
-        });*/
-    }
     
     /**
      * The following method will tail a specific file
@@ -188,9 +115,6 @@ module.exports = class LogMonitor{
             
             while( (Date.now() < endTimer) && (!self.logQueue.isEmpty()){
                 let msg = self.logQueue.pop();
-
-                //msg = msg.substring( 0, msg.indexOf("\n"));
-               // console.log( 'Message',msg );
 
                 if( typeof msg !== 'undefined' && msg !== ''){
                     messages.push(  msg );
