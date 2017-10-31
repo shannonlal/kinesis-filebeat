@@ -157,6 +157,8 @@ module.exports = class LogMonitor{
                 console.log('Queue is empty. Stopping till next interval');
                 resolve('No logs available');
                 return;
+            }else{
+                console.log('Queue is NOT empty.');
             }
             
             while( (Date.now() < endTimer) && (!self.logQueue.isEmpty())) {

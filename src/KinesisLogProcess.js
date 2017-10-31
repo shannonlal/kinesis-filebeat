@@ -25,10 +25,12 @@ module.exports = class KinesisLogProcess{
             region:region
         };
 
-        //console.log('kinesis stream', params);
+
         this.kinesis = new AWS.Kinesis(
             params
         );
+        console.log('kinesis stream', params);
+        console.log('kinesis stream name', DeliveryStreamName  );
     }
 
     /**
