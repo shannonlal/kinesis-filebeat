@@ -21,7 +21,6 @@ const LOG_FILE = process.env.LOG_FILE;
 let pushInterval = process.env.PUSH_INTERVAL;
 
 if( typeof pushInterval === 'undefined'){
-    //Default to 30 seconds
     pushInterval = 30000;
 }
 
@@ -30,15 +29,9 @@ const logMonitor = new LogMonitor( {pushInterval:pushInterval} );
 console.log('Tailing the following file ->', LOG_FILE);
 
 logMonitor.tail( LOG_FILE );
-//logMonitor.tail( LOG_FILE );
-//logMonitor.tailFile( LOG_FILE );
 
 var cleanInterval = setInterval( function ( ){
 
-    /*if( logMonitor.fileClosed){
-        //Reopen file
-        logMonitor.tail( LOG_FILE );
-    }*/
     logMonitor.processLogs().then( rst =>{
         console.log('Messages sent ')
     }).catch( err=>{    
