@@ -27,7 +27,7 @@ module.exports = class LogMonitor{
                 detectTruncate: true,
                 onTruncate:'reset',
                 waitForCreate: true,
-                useWatch: false
+                useWatch: true
             };
         }else{
             this.options = tailOptions;
