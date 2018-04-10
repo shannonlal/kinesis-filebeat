@@ -25,14 +25,14 @@ NOTE Space before period
 `docker images`
 
 ## To Run the docker image
-`docker run -d -id -e "LOG_FILE=./logs/test.log" -e PUSH_INTERVAL=10000 kinesis-filebeat `
+`docker run -d -id -e "LOG_STREAM_FILE=./logs/test.log" -e PUSH_INTERVAL=10000 kinesis-filebeat `
 
 ## To view list of Docker Containers
 `docker ps`
 
 
 ## To execute with node
-pm2 start src/index.js --no-daemon -x -- ${LOG_FILE} ${PUSH_INTERVAL} ${AWS_ACCESS_KEY} ${AWS_SECRET_KEY} ${AWS_KINESIS_STREAM_NAME}
+pm2 start src/index.js --no-daemon -x -- ${LOG_STREAM_FILE} ${PUSH_INTERVAL} ${AWS_ACCESS_KEY} ${AWS_SECRET_KEY} ${AWS_KINESIS_STREAM_NAME}
 
 ## TODO
 1. Integrate kinesis stream and start to test

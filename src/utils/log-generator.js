@@ -5,7 +5,7 @@ let logFile;
 if( typeof args !=='undefined' && args.length > 0){
     logFile = args[0];
 }else{
-    logFile = process.env.LOG_FILE;
+    logFile = process.env.LOG_STREAM_FILE;
 }
 
 

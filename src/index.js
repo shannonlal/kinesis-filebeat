@@ -5,7 +5,7 @@ var args = process.argv.slice(2);
 console.log( 'arguments', args);
 if( typeof args !=='undefined' && args.length > 3){
     console.log( 'Over writing env properties from cmd');
-    process.env.LOG_FILE= args[0];
+    process.env.LOG_STREAM_FILE= args[0];
     process.env.PUSH_INTERVAL= args[1];
     process.env.AWS_ACCESS_KEY = args[2];
     process.env.AWS_SECRET_KEY = args[3];
@@ -17,7 +17,7 @@ if( typeof args !=='undefined' && args.length > 3){
 const LogMonitor = require ('./LogMonitor');
 
 
-const LOG_FILE = process.env.LOG_FILE;
+const LOG_FILE = process.env.LOG_STREAM_FILE;
 let pushInterval = process.env.PUSH_INTERVAL;
 
 if( typeof pushInterval === 'undefined'){
